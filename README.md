@@ -14,8 +14,7 @@ pip install dopy
 from dopy import preprocess
 
 source = '''
-def example():
-    do
+def example() do
         print("Hello")
     end
 '''
