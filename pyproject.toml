@@ -1,13 +1,16 @@
 [tool.poetry]
 name = "dopy-standalone"
 version = "0.1.0"
-description = ""
+description = "A python preprocessor that enables do..end syntax"
 authors = ["Navdeep Saini <navdeep@mailbox.org>"]
 readme = "README.md"
+packages = [{ include = 'dopy-standalone' }]
 
 [tool.poetry.dependencies]
 python = "^3.12"
 
+[tool.poetry.group.dev.dependencies]
+pytest = '^7.3.1'
 
 [build-system]
 requires = ["poetry-core"]
