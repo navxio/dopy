@@ -10,13 +10,10 @@ packages = [{ include = 'dopy' }]
 python = "^3.10"
 
 [tool.poetry.scripts]
-"publish:test" = "scripts.publish.test:main"
-publish = "scripts.publish:main"
 dopy = "dopy.cli:main"
 
 [tool.poetry.group.dev.dependencies]
 pytest = '^7.3.1'
-twine = "^6.0.1"
 
 [build-system]
 requires = ["poetry-core"]
