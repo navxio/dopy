@@ -18,3 +18,16 @@ pytest = '^7.3.1'
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+addopts = ["-vv", "-x"]
+env_files = [".env.test"]
+markers = ['success']
+
+[tool.pyright]
+include = ["."]
+typeCheckingMode = "strict"
+reportGeneralTypeIssues = false
+pythonVersion = "3.10"
+reportOptionalSubscriptIndexError = false
