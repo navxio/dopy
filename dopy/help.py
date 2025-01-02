@@ -6,6 +6,5 @@ dopy <my_module>.dopy
 
 FLAGS
 - h: Print this text
-- t: Write the transpiled files
-- T <target> : Write the transpiled files to a target output module
+- t: Keep the transpiled files
 """

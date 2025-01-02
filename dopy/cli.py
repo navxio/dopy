@@ -1,6 +1,8 @@
 import argparse
-from dopy.core import preprocess_do_end as preprocess
 from dopy.help import HELP_TEXT
+from dopy.core import Dopy
+
+dopy = Dopy()
 
 """
 cli interface
@@ -15,19 +17,31 @@ def main():
     group = parser.add_mutually_exclusive_group()
 
     group.add_argument(
+        "--transpile",
         "-t",
         action="store_true",
         help="Transpile modules in place, preserving dir structure",
     )
 
-    group.add_argument(
-        "-T", nargs="?", const=True, help="Transpile module to optional target_name.py"
-    )
+    group.add_argument("--help", "-h", action="store_true", help="Show help text")
 
-    group.add_argument("-h", action="store_true", help="Show help text")
+    parser.add_argument("target", nargs="?", help="Target dopy module name")
     args = parser.parse_args()
 
-    if args.h:
+    if args.help:
+        print(HELP_TEXT)
+        return
+
+    if args.transpile:
+        if args.target:
+            try:
+                with open(args.target, "r") as f:
+                    contents = f.read()
+                processed = dopy.preprocess(contents)
+                exec(processed)
+            except FileNotFoundError:
+                print(f"Error: Target {args.target} not found.")
+    else:
         print(HELP_TEXT)
 
 
