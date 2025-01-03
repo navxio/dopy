@@ -39,6 +39,10 @@ def main() -> None:
         help="Dry run, print transpiled result to the console and exit",
     )
 
+    group.add_argument(
+        "--check", "-c", action="store_true", help="Check syntax without transpiling"
+    )
+
     group.add_argument("--help", "-h", action="store_true", help="Show help text")
 
     parser.add_argument("target", nargs="?", help="Target dopy module name")
@@ -61,6 +65,14 @@ def main() -> None:
 
     if not args.target:
         print("Error: Target module not specified.")
+
+    if args.check:
+        try:
+            dopy.validate_syntax(contents)
+            print(f"✓ {args.target} syntax is valid")
+        except DopySyntaxError as e:
+            print(f"✗ Syntax Error in {args.target}: {str(e)}")
+            return 1
 
     if args.keep:
         _save_to_file(processed, args.target[:-5] + ".py")

@@ -10,6 +10,7 @@ class Dopy:
         self.paren_level = 0
         self.in_multiline_string = False
         self.quote_char = None
+        self.block_stack = []
 
     def _get_line_indent(self, line):
         """Get the indentation level of a line"""
@@ -70,6 +71,35 @@ class Dopy:
             lines.append("".join(current_line))
 
         return lines
+
+    def validate_syntax(self, code):
+        """Validate do/end block matching"""
+        lines = code.split("\n")
+        self.block_stack = []  # Reset block stack
+
+        for line_num, line in enumerate(lines, 1):
+            stripped = line.strip()
+
+            # Skip empty lines
+            if not stripped:
+                continue
+
+            # Check for unmatched 'end'
+            if stripped == "end":
+                if not self.block_stack:
+                    raise DopySyntaxError(f"Unmatched 'end' at line {line_num}")
+                self.block_stack.pop()
+
+            # Track 'do' blocks with their line numbers
+            if stripped.endswith("do"):
+                self.block_stack.append((stripped, line_num))
+
+        # Check for unclosed blocks at end of file
+        if self.block_stack:
+            unclosed = self.block_stack[-1]
+            raise DopySyntaxError(
+                f"Unclosed 'do' block starting at line {unclosed[1]}: '{unclosed[0]}'"
+            )
 
     def _process_line(self, line) -> str:
         """process a single line"""
