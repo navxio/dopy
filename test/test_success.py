@@ -1,8 +1,10 @@
 import pytest
-from dopy import preprocess_do_end
+from dopy.core import Dopy
+
+dopy = Dopy()
 
 
-@pytest.mark.success
+@pytest.mark.edge
 class TestSuccess:
     def test_dopy_function_success(self):
         input_code_string = """
@@ -11,10 +13,10 @@ class TestSuccess:
         end
         """
         expected_string = """
-        def my_func():
-            print('hello world')
-        """
-        assert preprocess_do_end(input_code_string) == expected_string
+def my_func():
+    print("hello world")
+"""
+        assert dopy.preprocess(input_code_string).strip() == expected_string.strip()
 
     def test_dopy_if_else(self):
         input_code_string = """
@@ -23,10 +25,10 @@ class TestSuccess:
             end
         """
         expected_string = """
-            if (True):
-                print('true')
-        """
-        assert preprocess_do_end(input_code_string) == expected_string
+if (True):
+    print('true')
+"""
+        assert dopy.preprocess(input_code_string).strip() == expected_string.strip()
 
     def test_dopy_classes(self):
         input_code_str = """
@@ -34,16 +36,18 @@ class TestSuccess:
                 def __init__(self) do
                     self.x = 0
                 end
+                pass
             end
         """
         expected_output = """
-            class MyClass:
-                def __init__(self):
-                    self.x = 0
-                pass
-        """
+class MyClass:
+    def __init__(self):
+        self.x = 0
 
-        assert preprocess_do_end(input_code_str) == expected_output
+    pass
+"""
+
+        assert dopy.preprocess(input_code_str).strip() == expected_output.strip()
 
     def test_while_loop(self):
         input_code_str = """
@@ -52,10 +56,10 @@ class TestSuccess:
         end
         """
         expected_output = """
-        while True:
-            print('true')
+while True:
+    print('true')
         """
-        assert preprocess_do_end(input_code_str) == expected_output
+        assert dopy.preprocess(input_code_str).strip() == expected_output.strip()
 
     def test_for_loop(self):
         input_code_str = """
@@ -64,10 +68,10 @@ class TestSuccess:
         end
         """
         expected_output = """
-        for i in range(42):
-            print(i)
+for i in range(42):
+    print(i)
         """
-        assert preprocess_do_end(input_code_str) == expected_output
+        assert dopy.preprocess(input_code_str).strip() == expected_output.strip()
 
     def test_context_manager(self):
         input_str = """
@@ -77,11 +81,11 @@ class TestSuccess:
             end
         """
         expected_output = """
-        with open('target.txt') as f:
-            # do something with f
-            pass
+with open('target.txt') as f:
+    # do something with f
+    pass
         """
-        assert preprocess_do_end(input_str) == expected_output
+        assert dopy.preprocess(input_str).strip() == expected_output.strip()
 
     def test_exception_handling(self):
         input_str = """
@@ -100,17 +104,17 @@ class TestSuccess:
         """
 
         expected_output = """
-            try:
-                print('tried')
-            except:
-                print('except')
-            else:
-                print('else')
-            finally:
-                print('finally')
+try:
+    print('tried')
+except:
+    print('except')
+else:
+    print('else')
+finally:
+    print('finally')
             """
 
-        assert preprocess_do_end(input_str) == expected_output
+        assert dopy.preprocess(input_str).strip() == expected_output.strip()
 
     def test_match(self):
         input_str = """
@@ -124,10 +128,10 @@ class TestSuccess:
             end
         """
         expected_str = """
-            match value:
-                case pattern1:
-                    pass
-                case pattern2:
-                    pass
-        """
-        assert preprocess_do_end(input_str) == expected_str
+match value:
+    case pattern1:
+        pass
+    case pattern2:
+        pass
+"""
+        assert dopy.preprocess(input_str).strip() == expected_str.strip()

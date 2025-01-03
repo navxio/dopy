@@ -71,63 +71,22 @@ class Dopy:
 
         return lines
 
-    def _process_line(self, line):
-        """Process a single line of code"""
+    def _process_line(self, line) -> str:
+        """process a single line"""
         if not line.strip():
-            return "    " * self.indent_level + line
-
-        current_indent = self._get_line_indent(line)
-        stripped = line.lstrip()
-
-        # Track parentheses
-        self.paren_level += stripped.count("(") - stripped.count(")")
-
-        # Handle multiple do..end on one line
-        if ";" in stripped:
-            sublines = stripped.split(";")
-            result = []
-            for subline in sublines:
-                if subline.strip():
-                    result.extend(self.preprocess(subline.strip()).split("\n"))
-            return "\n".join(result)
-
-        # Skip processing if we're in a multi-line string or parentheses block
-        if self.in_multiline_string or self.paren_level > 0:
-            return line
-
-        # Handle inline do..end
-        if " do " in stripped and " end" in stripped:
-            do_pos = stripped.index(" do ")
-            end_pos = stripped.index(" end")
-            if not self._is_in_string(stripped, do_pos) and not self._is_in_string(
-                stripped, end_pos
-            ):
-                processed = stripped.replace(" do ", ": ").replace(" end", "")
-                return " " * current_indent + processed
-
-        # Handle 'do' at end of line
-        if stripped.endswith(" do") and not self._is_in_string(
-            stripped, len(stripped) - 3
-        ):
-            self.indent_stack.append(current_indent)
-            processed = line.replace(" do", ":")
-            self.indent_level += 1
-            return processed
-
-        # Handle 'end'
-        elif (
-            stripped == "end" or stripped.startswith("end #")
-        ) and not self._is_in_string(stripped, 0):
-            if self.indent_stack:
-                self.indent_level -= 1
-                self.indent_stack.pop()
             return None
 
-        # Regular lines
+        stripped = line.strip()
+        if stripped.endswith("do"):
+            doless_line = stripped.replace("do", "")
+            result = "    " * self.indent_level + doless_line.strip() + ":"
+            self.indent_level += 1
+            return result
+        elif stripped.endswith("end"):
+            self.indent_level -= 1
+            return ""
         else:
-            base_indent = " " * current_indent
-            nested_indent = "    " * (self.indent_level - len(self.indent_stack))
-            return base_indent + nested_indent + stripped
+            return "    " * self.indent_level + stripped
 
     def preprocess(self, code):
         """Main preprocessing method"""
