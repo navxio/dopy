@@ -1,6 +1,7 @@
 import argparse
 from dopy.help import HELP_TEXT
 from dopy.core import Dopy
+import autopep8
 
 dopy = Dopy()
 
@@ -12,7 +13,7 @@ cli interface
 def _save_to_file(contents: str, name: str):
     """write the processed python string to file"""
     try:
-        with open(f"./{name}", "w") as f:
+        with open(name, "w") as f:
             f.write(contents)
     except Exception as e:
         print(f"Error writing to file: {e}")
@@ -48,12 +49,13 @@ def main() -> None:
         return
 
     contents = None
-    processed = None
+    processed_with_pep8 = None
 
     try:
         with open(args.target, "r") as f:
             contents = f.read()
         processed = dopy.preprocess(contents)
+        processed_with_pep8 = autopep8.fix_code(processed)
     except FileNotFoundError:
         print(f"Error: Target {args.target} not found.")
 
@@ -61,11 +63,12 @@ def main() -> None:
         print("Error: Target module not specified.")
 
     if args.keep:
-        _save_to_file(processed, args.target[:-5])
+        _save_to_file(processed, args.target[:-5] + ".py")
     if args.dry_run:
-        print(processed)
+        print(processed_with_pep8)
+        return
     try:
-        exec(processed)
+        exec(processed_with_pep8)
     except Exception as e:
         print(f"Error running transpiled code : {e}")
 
