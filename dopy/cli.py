@@ -70,6 +70,7 @@ def main() -> None:
         try:
             dopy.validate_syntax(contents)
             print(f"✓ {args.target} syntax is valid")
+            return 0
         except DopySyntaxError as e:
             print(f"✗ Syntax Error in {args.target}: {str(e)}")
             return 1
