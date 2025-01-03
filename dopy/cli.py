@@ -68,7 +68,8 @@ def main() -> None:
         print(processed_with_pep8)
         return
     try:
-        exec(processed_with_pep8)
+        namespace = {}
+        exec(processed_with_pep8, namespace)
     except Exception as e:
         print(f"Error running transpiled code : {e}")
 
