@@ -9,7 +9,16 @@ cli interface
 """
 
 
-def main():
+def _save_to_file(contents: str, name: str):
+    """write the processed python string to file"""
+    try:
+        with open(f"./{name}", "w") as f:
+            f.write(contents)
+    except Exception as e:
+        print(f"Error writing to file: {e}")
+
+
+def main() -> None:
     parser = argparse.ArgumentParser(
         description="Python without indentation", add_help=False
     )
@@ -17,10 +26,16 @@ def main():
     group = parser.add_mutually_exclusive_group()
 
     group.add_argument(
-        "--transpile",
-        "-t",
+        "--keep",
+        "-k",
         action="store_true",
         help="Transpile modules in place, preserving dir structure",
+    )
+    group.add_argument(
+        "--dry-run",
+        "-d",
+        action="store_true",
+        help="Dry run, print transpiled result to the console and exit",
     )
 
     group.add_argument("--help", "-h", action="store_true", help="Show help text")
@@ -32,17 +47,27 @@ def main():
         print(HELP_TEXT)
         return
 
-    if args.transpile:
-        if args.target:
-            try:
-                with open(args.target, "r") as f:
-                    contents = f.read()
-                processed = dopy.preprocess(contents)
-                exec(processed)
-            except FileNotFoundError:
-                print(f"Error: Target {args.target} not found.")
-    else:
-        print(HELP_TEXT)
+    contents = None
+    processed = None
+
+    try:
+        with open(args.target, "r") as f:
+            contents = f.read()
+        processed = dopy.preprocess(contents)
+    except FileNotFoundError:
+        print(f"Error: Target {args.target} not found.")
+
+    if not args.target:
+        print("Error: Target module not specified.")
+
+    if args.keep:
+        _save_to_file(processed, args.target[:-5])
+    if args.dry_run:
+        print(processed)
+    try:
+        exec(processed)
+    except Exception as e:
+        print(f"Error running transpiled code : {e}")
 
 
 if __name__ == "__main__":
