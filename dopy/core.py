@@ -104,7 +104,7 @@ class Dopy:
         result = []
         for line in lines:
             processed = self._process_line(line)
-            if processed is not None:  # Skip 'end' lines
+            if processed:
                 result.append(processed)
 
         return "\n".join(result)
