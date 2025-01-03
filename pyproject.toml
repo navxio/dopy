@@ -8,6 +8,7 @@ packages = [{ include = 'dopy' }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+autopep8 = "^2.3.1"
 
 [tool.poetry.scripts]
 dopy = "dopy.cli:main"
@@ -23,7 +24,7 @@ build-backend = "poetry.core.masonry.api"
 testpaths = ["test"]
 addopts = ["-vv", "-x"]
 env_files = [".env.test"]
-markers = ['success']
+markers = ['success', 'edge']
 
 [tool.pyright]
 include = ["."]
