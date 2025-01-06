@@ -1,6 +1,11 @@
 # dopy
 
-An experimental Python preprocessor that enables do..end syntax in addition to indented blocks
+An experimental Python preprocessor that enables do..end syntax in place of strict indentation
+
+## Requirements
+
+- `python 3.10+`
+- `pip`
 
 ## Installation
 
@@ -11,26 +16,28 @@ pip install dopy-cli
 ## Features
 
 - Converts ruby/lua style `do..end` blocks into indented blocks
-- Maintains python's semantics while relaxing indentation requirements
+- Maintains python's semantics
 - Handles both inline and multi line `do..end` blocks
 - Preserves string literals and comments
-- Processes .dopy files into valid .py files (maintaining the dir structure)
+- Processes .dopy files into pep8 compliant .py files (maintaining the dir structure)
 
 ## Usage
 
 ### Programmatic
 
 ```python
-from dopy import preprocess
+from dopy.core import Dopy
+dopy = Dopy()
 
 source = '''
-def example() do
-        print("Hello")
-    end
+def hello_world() do
+  print("Hello")
+end
+hello_world()
 '''
 
-processed = preprocess(source)
-exec(processed)
+processed = dopy.preprocess(source)
+exec(processed, namespace={})
 ```
 
 ### cli
@@ -41,11 +48,26 @@ Will use the current active python interpreter, can be overridden with `PYTHON_P
 ## Flags
 
 `-h --help`: Print help text
-`-t --transpile`: Produce transpiled python files in place
+`-k --keep`: Keep transpiled python files in place
+`-d --dry-run`: Print the transpiled python code to console and exit
+`-c --check`: Check dopy syntax without transpiling
+
+## Syntax Rules
+
+- Make sure the `do` keyword is on the same line as rest of the block declaration,
+- `end` should be on its own line
+- single line do..end blocks are supported but shouldn't be used liberally
 
 ## Acknowledgements
 
 This project is hugely inspired by [`mathialo/bython`](https://github.com/mathialo/bython)
+
+### Todo
+
+- [ ] nvim-treesitter support
+- [ ] github publish pipeline
+- [ ] support type hints
+- [ ] `py2dopy` script
 
 ### License
 
