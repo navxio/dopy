@@ -1,13 +1,10 @@
-import pytest
 import autopep8
-from dopy.core import Dopy
-
-dopy = Dopy()
+import pytest
 
 
 @pytest.mark.edge
 class TestSuccess:
-    def test_dopy_function_success(self):
+    def test_dopy_function_success(self, dopy):
         input_code_string = """
         def my_func() do
             print("hello world")
@@ -22,7 +19,7 @@ def my_func():
             == autopep8.fix_code(expected_string).lstrip()
         )
 
-    def test_dopy_if_else(self):
+    def test_dopy_if_else(self, dopy):
         input_code_string = """
             if (True) do
                 print('true')
@@ -37,7 +34,7 @@ if (True):
             == autopep8.fix_code(expected_string).lstrip()
         )
 
-    def test_dopy_classes(self):
+    def test_dopy_classes(self, dopy):
         input_code_str = """
             class MyClass do
                 def __init__(self) do
@@ -59,7 +56,7 @@ class MyClass:
             == autopep8.fix_code(expected_string).lstrip()
         )
 
-    def test_while_loop(self):
+    def test_while_loop(self, dopy):
         input_code_str = """
         while True do
             print('true')
@@ -74,7 +71,7 @@ while True:
             == autopep8.fix_code(expected_output).lstrip()
         )
 
-    def test_for_loop(self):
+    def test_for_loop(self, dopy):
         input_code_str = """
         for i in range(42) do
             print(i)
@@ -89,7 +86,7 @@ for i in range(42):
             == autopep8.fix_code(expected_output).lstrip()
         )
 
-    def test_context_manager(self):
+    def test_context_manager(self, dopy):
         input_str = """
             with open('target.txt') as f do
                 # do something with f
@@ -103,7 +100,7 @@ with open('target.txt') as f:
         """
         assert dopy.preprocess(input_str) == autopep8.fix_code(expected_output).lstrip()
 
-    def test_exception_handling(self):
+    def test_exception_handling(self, dopy):
         input_str = """
             try do
                 print('tried')
@@ -136,7 +133,7 @@ finally:
 
         assert dopy.preprocess(input_str) == autopep8.fix_code(expected_string).lstrip()
 
-    def test_match(self):
+    def test_match(self, dopy):
         input_str = """
             match value do
                 case pattern1 do

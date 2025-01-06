@@ -1,13 +1,10 @@
 import pytest
-from dopy.core import Dopy
 from dopy.exceptions import DopyUnmatchedBlockError, DopyFileError
 
 
 class TestDopyBadSyntax:
-    @pytest.mark.edge
-    def test_unmatched_do_block(self):
+    def test_unmatched_do_block(self, dopy):
         """Test that an unmatched 'do' block raises the appropriate exception"""
-        dopy = Dopy()
         code = """
 def calculate() do
     x = 10
@@ -20,7 +17,7 @@ def calculate() do
             dopy.preprocess(code)
         assert "Unmatched do block" in str(exc_info.value)
 
-    def test_unmatched_end_block(self):
+    def test_unmatched_end_block(self, dopy):
         """Test that an unmatched 'end' block raises the appropriate exception"""
         dopy = Dopy()
         code = """
@@ -36,7 +33,7 @@ end  # Extra end statement
             dopy.preprocess(code)
         assert "Unmatched end block" in str(exc_info.value)
 
-    def test_inexistent_input_file(self):
+    def test_inexistent_input_file(self, dopy):
         """Test that attempting to process a non-existent file raises the appropriate exception"""
         dopy = Dopy()
         with pytest.raises(DopyFileError) as exc_info:
