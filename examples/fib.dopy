@@ -1,0 +1,21 @@
+def memoize(func) do
+cache = {}
+def wrapper(n) do
+if n not in cache do
+  cache[n] = func(n)
+  return cache[n]
+  end
+  return cache[n]
+end
+return wrapper
+end
+
+@memoize
+def factorial(n) do
+if n < 2 do
+  return 1
+  end
+  return n * factorial(n-1)
+end
+
+print(factorial(20))

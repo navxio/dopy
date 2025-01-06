@@ -1,0 +1,8 @@
+switch (val) do
+  case 1 do
+  print('1')
+  end
+  case 0 do
+  print('1')
+  end
+end

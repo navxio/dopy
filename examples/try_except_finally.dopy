@@ -1,0 +1,7 @@
+try do
+  print('hello')
+end
+except Exception as e do
+end
+finally do
+end

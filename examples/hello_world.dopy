@@ -1,0 +1,5 @@
+def hello_world() do
+    print('hello world!')
+end
+
+hello_world()
