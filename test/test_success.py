@@ -1,4 +1,5 @@
 import pytest
+import autopep8
 from dopy.core import Dopy
 
 dopy = Dopy()
@@ -16,7 +17,10 @@ class TestSuccess:
 def my_func():
     print("hello world")
 """
-        assert dopy.preprocess(input_code_string).strip() == expected_string.strip()
+        assert (
+            dopy.preprocess(input_code_string)
+            == autopep8.fix_code(expected_string).lstrip()
+        )
 
     def test_dopy_if_else(self):
         input_code_string = """
@@ -28,7 +32,10 @@ def my_func():
 if (True):
     print('true')
 """
-        assert dopy.preprocess(input_code_string).strip() == expected_string.strip()
+        assert (
+            dopy.preprocess(input_code_string)
+            == autopep8.fix_code(expected_string).lstrip()
+        )
 
     def test_dopy_classes(self):
         input_code_str = """
@@ -39,14 +46,18 @@ if (True):
                 pass
             end
         """
-        expected_output = """
+        expected_string = """
 class MyClass:
     def __init__(self):
         self.x = 0
+
     pass
 """
 
-        assert dopy.preprocess(input_code_str).strip() == expected_output.strip()
+        assert (
+            dopy.preprocess(input_code_str)
+            == autopep8.fix_code(expected_string).lstrip()
+        )
 
     def test_while_loop(self):
         input_code_str = """
@@ -58,7 +69,10 @@ class MyClass:
 while True:
     print('true')
         """
-        assert dopy.preprocess(input_code_str).strip() == expected_output.strip()
+        assert (
+            dopy.preprocess(input_code_str)
+            == autopep8.fix_code(expected_output).lstrip()
+        )
 
     def test_for_loop(self):
         input_code_str = """
@@ -70,7 +84,10 @@ while True:
 for i in range(42):
     print(i)
         """
-        assert dopy.preprocess(input_code_str).strip() == expected_output.strip()
+        assert (
+            dopy.preprocess(input_code_str)
+            == autopep8.fix_code(expected_output).lstrip()
+        )
 
     def test_context_manager(self):
         input_str = """
@@ -84,7 +101,7 @@ with open('target.txt') as f:
     # do something with f
     pass
         """
-        assert dopy.preprocess(input_str).strip() == expected_output.strip()
+        assert dopy.preprocess(input_str) == autopep8.fix_code(expected_output).lstrip()
 
     def test_exception_handling(self):
         input_str = """
@@ -102,18 +119,22 @@ with open('target.txt') as f:
             end
         """
 
-        expected_output = """
+        expected_string = """
 try:
     print('tried')
+
 except:
     print('except')
+
 else:
     print('else')
+
 finally:
     print('finally')
+
             """
 
-        assert dopy.preprocess(input_str).strip() == expected_output.strip()
+        assert dopy.preprocess(input_str) == autopep8.fix_code(expected_string).lstrip()
 
     def test_match(self):
         input_str = """
@@ -126,11 +147,15 @@ finally:
                 end
             end
         """
-        expected_str = """
+        expected_string = """
 match value:
     case pattern1:
         pass
+
     case pattern2:
         pass
 """
-        assert dopy.preprocess(input_str).strip() == expected_str.strip()
+        assert (
+            dopy.preprocess(input_str).strip()
+            == autopep8.fix_code(expected_string).strip()
+        )
