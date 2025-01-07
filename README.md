@@ -17,9 +17,9 @@ pip install dopy-cli
 
 - Converts ruby/lua style `do..end` blocks into indented blocks
 - Maintains python's semantics
-- Handles both inline and multi line `do..end` blocks
 - Preserves string literals and comments
 - Processes .dopy files into pep8 compliant .py files (maintaining the dir structure)
+- Recursively transpiles imports
 
 ## Usage
 
@@ -40,23 +40,29 @@ processed = dopy.preprocess(source)
 exec(processed, namespace={})
 ```
 
+More examples in the [examples](./examples/) dir
+
 ### cli
 
 `dopy my_module.dopy`
+
 Will use the current active python interpreter, can be overridden with `PYTHON_PATH` env var
 
 ## Flags
 
 `-h --help`: Print help text
+
 `-k --keep`: Keep transpiled python files in place
+
 `-d --dry-run`: Print the transpiled python code to console and exit
+
 `-c --check`: Check dopy syntax without transpiling
 
 ## Syntax Rules
 
 - Make sure the `do` keyword is on the same line as rest of the block declaration,
 - `end` should be on its own line
-- single line do..end blocks are supported but shouldn't be used liberally
+- all imports at the top of the module
 
 ## Acknowledgements
 
@@ -64,10 +70,10 @@ This project is hugely inspired by [`mathialo/bython`](https://github.com/mathia
 
 ### Todo
 
-- [ ] nvim-treesitter support
-- [ ] github publish pipeline
 - [ ] support type hints
 - [ ] `py2dopy` script
+- [ ] function level imports
+- [ ] nvim-treesitter support
 
 ### License
 
