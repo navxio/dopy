@@ -2,7 +2,6 @@ import pytest
 from dopy.exceptions import DopyUnmatchedBlockError, DopyFileError
 
 
-@pytest.mark.edge
 class TestDopyBadSyntax:
     def test_unmatched_do_block(self, dopy):
         """Test that an unmatched 'do' block raises the appropriate exception"""
