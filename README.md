@@ -52,7 +52,7 @@ Will use the current active python interpreter, can be overridden with `PYTHON_P
 
 `-h --help`: Print help text
 
-`-k --keep`: Keep transpiled python files in place
+`-k --keep`: Keep transpiled python files in place (will overwrite)
 
 `-d --dry-run`: Print the transpiled python code to console and exit
 
@@ -63,6 +63,7 @@ Will use the current active python interpreter, can be overridden with `PYTHON_P
 - Make sure the `do` keyword is on the same line as rest of the block declaration,
 - `end` should be on its own line
 - all imports at the top of the module
+- must create a `__init__.py` file in dirs so that the transpiled python modules can be recognised
 
 ## Acknowledgements
 
