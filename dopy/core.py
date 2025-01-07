@@ -78,18 +78,18 @@ class Dopy:
             result = "    " * self.indent_level + doless_line.strip() + ":"
             self.indent_level += 1
             return result
-        elif stripped.endswith("end"):
+        elif stripped.endswith("end") and "#" not in stripped:
             self.indent_level -= 1
             return ""
-        else:
-            processed_line = self._process_inline_blocks(stripped)
-            return "    " * self.indent_level + processed_line
 
     def preprocess(self, code):
         """Main preprocessing method"""
         # Reset state
         self.indent_level = 0
         self.block_stack = []
+
+        # normalize line endings
+        code = code.replace("\r\n", "\n").replace("\r", "\n")
 
         self.validate_syntax(code)
 
