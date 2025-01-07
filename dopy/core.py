@@ -4,7 +4,7 @@ from dopy.exceptions import DopyFileError, DopyUnmatchedBlockError
 class Dopy:
     """
     Dopy is a preprocesor for python that removes the need for strict
-    indentation by supplanting them with do..end blocks
+    indentation by supplanting them with indentation agnostic do..end blocks
     """
 
     def __init__(self):
@@ -104,45 +104,6 @@ class Dopy:
             result.append(processed)
 
         return "\n".join(result)
-
-    def _process_inline_blocks(self, text):
-        result = []
-        current_pos = 0
-        block_level = 0
-
-        while current_pos < len(text):
-            # Find next 'do' or 'end'
-            do_pos = text.find(" do", current_pos)
-            end_pos = text.find("end", current_pos)
-
-            # No more blocks found
-            if do_pos == -1 and end_pos == -1:
-                result.append(text[current_pos:])
-                break
-
-            # Handle 'do' block
-            if do_pos != -1 and (end_pos == -1 or do_pos < end_pos):
-                # Check if 'do' is inside a string
-                if not self._is_in_string(text, do_pos):
-                    result.append(text[current_pos:do_pos])
-                    result.append(":")
-                    block_level += 1
-                    current_pos = do_pos + 3  # Skip past 'do'
-                else:
-                    result.append(text[current_pos : do_pos + 3])
-                    current_pos = do_pos + 3
-            # Handle 'end' block
-            elif end_pos != -1:
-                # Check if 'end' is inside a string
-                if not self._is_in_string(text, end_pos):
-                    result.append(text[current_pos:end_pos])
-                    block_level -= 1
-                    current_pos = end_pos + 3  # Skip past 'end'
-                else:
-                    result.append(text[current_pos : end_pos + 3])
-                    current_pos = end_pos + 3
-
-        return "".join(result).rstrip()
 
     def process_file(self, input_file, output_file=None):
         """Process a file and optionally write to output file"""

@@ -1,6 +1,7 @@
 import argparse
 from dopy.help import HELP_TEXT
 from dopy.core import Dopy
+from dopy.exceptions import DopyUnmatchedBlockError
 import autopep8
 
 dopy = Dopy()
@@ -71,7 +72,7 @@ def main() -> None:
             dopy.validate_syntax(contents)
             print(f"✓ {args.target} syntax is valid")
             return 0
-        except DopySyntaxError as e:
+        except DopyUnmatchedBlockError as e:
             print(f"✗ Syntax Error in {args.target}: {str(e)}")
             return 1
 
