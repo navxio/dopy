@@ -56,7 +56,7 @@ class Dopy:
                     raise DopyUnmatchedBlockError(f"Unmatched 'end' at line {line_num}")
                 self.block_stack.pop()
 
-            if stripped.endswith("do"):
+            if stripped.endswith("do") and "#" not in stripped:
                 self.block_stack.append((stripped, line_num))
 
         if self.block_stack:
