@@ -1,8 +1,6 @@
 import autopep8
-import pytest
 
 
-@pytest.mark.edge
 class TestSuccess:
     def test_dopy_function_success(self, dopy):
         input_code_string = """
