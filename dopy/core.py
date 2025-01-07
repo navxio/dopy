@@ -81,6 +81,8 @@ class Dopy:
         elif stripped.endswith("end") and "#" not in stripped:
             self.indent_level -= 1
             return ""
+        else:
+            return "    " * self.indent_level + stripped
 
     def preprocess(self, code):
         """Main preprocessing method"""
