@@ -78,4 +78,4 @@ This project is hugely inspired by [`mathialo/bython`](https://github.com/mathia
 
 ### License
 
-GPL-v2.0
+See [LICENSE](./LICENSE)
