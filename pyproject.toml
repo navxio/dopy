@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dopy-cli"
-version = "0.1.2"
+version = "0.2.0"
 description = "A python preprocessor that enables do..end syntax replacing strict indentation"
 authors = ["Navdeep Saini <navdeep@mailbox.org>"]
 readme = "README.md"
@@ -22,7 +22,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
 testpaths = ["test"]
-addopts = ["-vv", "-x"]
+addopts = ["-vv"]
 markers = ['success', 'edge']
 
 [tool.pyright]
