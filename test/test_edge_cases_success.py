@@ -2,7 +2,6 @@ import pytest
 import autopep8
 
 
-@pytest.mark.edge
 class TestSuccessEdgeCases:
     def test_line_comment_with_do(self, dopy):
         input_string = """
@@ -34,3 +33,15 @@ class TestSuccessEdgeCases:
             print(message)
         """
         assert dopy.preprocess(input_str) == autopep8.fix_code(input_str).strip()
+
+    def test_comment_after_do(self, dopy):
+        input_str = """
+            def foo() do # this is the foo fn
+              return None
+            end
+        """
+        expected_output = """
+        def foo(): # this is the foo fn
+            return None
+"""
+        assert dopy.preprocess(input_str) == autopep8.fix_code(expected_output).lstrip()
