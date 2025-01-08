@@ -19,6 +19,7 @@ pip install dopy-cli
 - Maintains python's semantics
 - Preserves string literals and comments
 - Processes .dopy files into pep8 compliant .py files (maintaining the dir structure)
+- supports type hints
 - Recursively transpiles imports
 
 ## Usage
@@ -71,7 +72,6 @@ This project is hugely inspired by [`mathialo/bython`](https://github.com/mathia
 
 ### Todo
 
-- [ ] support type hints
 - [ ] `py2dopy` script
 - [ ] function level imports
 - [ ] nvim-treesitter support
