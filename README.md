@@ -10,7 +10,7 @@ An experimental Python preprocessor that enables do..end syntax in place of stri
 ## Installation
 
 ```bash
-pip install dopy-cli
+pip install dopy-syntax
 ```
 
 ## Features
@@ -20,7 +20,7 @@ pip install dopy-cli
 - Preserves string literals and comments
 - Processes .dopy files into pep8 compliant .py files (maintaining the dir structure)
 - supports type hints
-- Recursively transpiles imports
+- Recursively transpiles imports (multithreaded)
 
 ## Usage
 
