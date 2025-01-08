@@ -59,6 +59,13 @@ class Dopy:
             if stripped.endswith("do") and "#" not in stripped:
                 self.block_stack.append((stripped, line_num))
 
+            # comment case
+            do_index = stripped.find("do")
+            comment_start_index = stripped.find("#")
+
+            if do_index != -1 and do_index < comment_start_index:
+                self.block_stack.append((stripped, line_num))
+
         if self.block_stack:
             unclosed = self.block_stack[-1]
             raise DopyUnmatchedBlockError(
@@ -71,11 +78,18 @@ class Dopy:
             return None
 
         stripped = line.strip()
+
         if stripped.endswith("do"):
             if "#" in stripped:
                 return stripped
-            doless_line = stripped.replace("do", "")
-            result = "    " * self.indent_level + doless_line.strip() + ":"
+            doless_line = stripped.replace(" do", ":")
+            result = "    " * self.indent_level + doless_line.strip()
+            self.indent_level += 1
+            return result
+        elif stripped.find("do") < stripped.find("#"):
+            # both comment and do in the same line
+            doless_line = stripped.replace(" do", ":")
+            result = "    " * self.indent_level + doless_line.strip()
             self.indent_level += 1
             return result
         elif stripped.endswith("end") and "#" not in stripped:
