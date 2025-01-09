@@ -80,7 +80,7 @@ class Dopy:
         stripped = line.strip()
 
         if stripped.startswith("#"):
-            return stripped
+            return "    " * self.indent_level + stripped
 
         if stripped.endswith("do"):
             if "#" in stripped:
