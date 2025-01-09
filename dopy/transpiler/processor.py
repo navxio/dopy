@@ -46,19 +46,3 @@ class DopyProcessor:
             return False
 
         return True
-
-
-def process_with_imports(target: str, project_root: Path = None) -> bool:
-    """
-    Main entry point - collect all imports and process them.
-    Returns True if all processing succeeded, False if any failed.
-    """
-    target_path = Path(target)
-    if project_root is None:
-        project_root = target_path.parent
-
-    collector = DopyImportCollector(project_root)
-    all_files = collector.collect_all_imports(target_path)
-
-    processor = DopyProcessor()
-    return processor.process_all(all_files)
