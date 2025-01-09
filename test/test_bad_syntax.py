@@ -32,6 +32,17 @@ end  # Extra end statement
             dopy.preprocess(code)
         assert "Unmatched 'end' at" in str(exc_info.value)
 
+    def test_enclosed_do(self, dopy):
+        """Test that a do enclosed with keywords fails"""
+        code = """
+            def test() do print()
+        end
+        """
+        with pytest.raises(DopyUnmatchedBlockError) as exc_info:
+            dopy.preprocess(code)
+
+        assert "Unmatched 'end' at" in str(exc_info.value)
+
     def test_inexistent_input_file(self, dopy):
         """Test that attempting to process a non-existent file raises the appropriate exception"""
         with pytest.raises(DopyFileError) as exc_info:
