@@ -79,6 +79,9 @@ class Dopy:
 
         stripped = line.strip()
 
+        if stripped.startswith("#"):
+            return stripped
+
         if stripped.endswith("do"):
             if "#" in stripped:
                 return stripped
