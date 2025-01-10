@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dopy-syntax"
-version = "0.0.1"
+version = "0.1.0"
 description = "Transform Python code using do..end blocks instead of indentation-based scoping"
 authors = ["Navdeep Saini <navdeep@mailbox.org>"]
 readme = "README.md"
