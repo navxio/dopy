@@ -65,6 +65,7 @@ Will use the current active python interpreter, can be overridden with `PYTHON_P
 - `end` should be on its own line
 - all imports at the top of the module
 - must create a `__init__.py` file in dirs so that the transpiled python modules can be recognised
+- Keep imports relative to the directory structure, similar to regular Python
 
 ## Acknowledgements
 
