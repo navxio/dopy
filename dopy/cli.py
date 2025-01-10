@@ -96,7 +96,7 @@ def main() -> None:
                 return 1
 
         if args.keep:
-            run_with_files(dopy=dopy, main_module=target_path)
+            run_with_files(main_module=target_path)
             return 0
 
         if args.stdout:
@@ -112,7 +112,7 @@ def main() -> None:
                 return 1
 
         # Default case: run without keeping files
-        run_without_files(dopy=dopy, main_module=target_path)
+        run_without_files(main_module=target_path)
         return 0
 
     except FileNotFoundError as e:
