@@ -51,13 +51,13 @@ Will use the current active python interpreter, can be overridden with `PYTHON_P
 
 ## Flags
 
-`-h --help`: Print help text
+`-h,--help`: Print help text
 
-`-k --keep`: Keep transpiled python files in place (will overwrite)
+`-k,--keep`: Keep transpiled python files in place (will overwrite)
 
-`-d --dry-run`: Print the transpiled python code to console and exit
+`-s,--stdout`: Print the transpiled python code to console and exit
 
-`-c --check`: Check dopy syntax without transpiling
+`-c,--check`: Check dopy syntax without transpiling
 
 ## Syntax Rules
 
