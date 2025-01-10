@@ -7,7 +7,7 @@ dopy <my_module>.dopy
 FLAGS
 -h, --help: Print this text
 -k, --keep: Keep the transpiled files
--d, --dry-run: Print the transpiled python to console and exit
+-s, --stdout: Print the transpiled python to console and exit
 -c, --check: Check dopy syntax without transpiling
 
 EXAMPLE:

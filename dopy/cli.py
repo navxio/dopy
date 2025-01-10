@@ -59,10 +59,10 @@ def main() -> None:
         help="Transpile modules in place, preserving dir structure",
     )
     group.add_argument(
-        "--dry-run",
-        "-d",
+        "--stdout",
+        "-s",
         action="store_true",
-        help="Dry run, print transpiled result to the console and exit",
+        help="Print transpiled result to the console and exit",
     )
     group.add_argument(
         "--check", "-c", action="store_true", help="Check syntax without transpiling"
@@ -99,7 +99,7 @@ def main() -> None:
             run_with_files(dopy=dopy, main_module=target_path)
             return 0
 
-        if args.dry_run:
+        if args.stdout:
             with open(target_path, "r") as f:
                 contents = f.read()
             try:
