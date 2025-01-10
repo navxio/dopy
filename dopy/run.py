@@ -3,6 +3,8 @@ import tempfile
 import importlib.util
 import sys
 from typing import Union
+
+from autopep8 import main
 from dopy.core import Dopy
 from dopy.transpiler import process_with_imports
 from dopy.transpiler.collector import DopyImportCollector
@@ -24,7 +26,9 @@ def run_module(module_path: str):
     spec.loader.exec_module(module)
 
 
-def run_without_files(main_module: Union[str, Path], project_root: Path = None, dopy: Dopy) -> None:
+def run_without_files(
+    dopy: Dopy, main_module: Union[str, Path], project_root: Path = None
+) -> None:
     """
     Run Dopy code without creating permanent files by using a temporary directory.
 
@@ -40,8 +44,13 @@ def run_without_files(main_module: Union[str, Path], project_root: Path = None, 
     with tempfile.TemporaryDirectory() as temp_dir:
         temp_dir = Path(temp_dir)
 
+        # lets copy the main module to temp dir
+        temp_main = temp_dir / main_module.name
+        with open(main_module, "r") as f:
+            temp_main.write_text(f.read())
+
         # Process the main module and its imports
-        process_with_imports(str(main_module), project_root)
+        process_with_imports(str(temp_main), temp_dir)
 
         # Read and transpile the main module
         with open(main_module, "r") as f:
@@ -60,7 +69,9 @@ def run_without_files(main_module: Union[str, Path], project_root: Path = None, 
     #
 
 
-def run_with_files(main_module: Union[str, Path], project_root: Path = None, dopy: Dopy) -> None:
+def run_with_files(
+    dopy: Dopy, main_module: Union[str, Path], project_root: Path = None
+) -> None:
     """
     Run Dopy code while preserving the transpiled Python files in their original directory structure.
     This is used when the --keep flag is passed.
@@ -72,7 +83,6 @@ def run_with_files(main_module: Union[str, Path], project_root: Path = None, dop
     main_module = Path(main_module)
     if project_root is None:
         project_root = main_module.parent
-
 
     # Collect all .dopy files that need to be processed
     collector = DopyImportCollector(project_root)
