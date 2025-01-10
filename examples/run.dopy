@@ -1,0 +1,3 @@
+from pkg.test import test
+
+test()

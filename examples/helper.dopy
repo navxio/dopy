@@ -1,0 +1,8 @@
+#helper.dopy
+def greet(name) do
+print(f'hello, {name}')
+end
+
+def calculate_sum(a,b) do
+return a + b
+end
