@@ -20,7 +20,7 @@ pip install dopy-syntax
 - Preserves string literals and comments
 - Processes .dopy files into pep8 compliant .py files (maintaining the dir structure)
 - supports type hints
-- Recursively transpiles imports (multithreaded)
+- Transpiles imports concurrently
 
 ## Usage
 
