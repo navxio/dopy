@@ -71,12 +71,9 @@ Will use the current active python interpreter, can be overridden with `PYTHON_P
 
 This project is hugely inspired by [`mathialo/bython`](https://github.com/mathialo/bython)
 
-### Todo
-
-- [ ] `py2dopy` script
-- [ ] function level imports
-- [ ] nvim-treesitter support
-
 ### License
 
 See [LICENSE](./LICENSE)
+
+### Update- Archived
+I built this to learn more about python/interpreter language syntax in general, but not interested in pursuing this further.
